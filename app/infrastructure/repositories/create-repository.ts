@@ -10,7 +10,7 @@ export interface RepositoryConfig<
   TMeta extends EntityMeta = EntityMeta,
 > {
   entityType: SyncEntityType;
-  getTable: (db: TeaTastingDatabase) => Table<TEntity, "meta.id">;
+  getTable: (db: TeaTastingDatabase) => Table<TEntity, string>;
   resolveDatabase?: () => TeaTastingDatabase;
 }
 

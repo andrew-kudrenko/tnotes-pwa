@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import { createEmptyTastingSession } from "../domain/session/factory";
-import { sessionRepository } from "../infrastructure/repositories/session.repository";
+
 import { useProfileStore } from "../stores/profile.store";
 import { useSyncStore } from "../stores/sync.store";
 
-const router = useRouter();
+const { $pwa } = useNuxtApp();
+
 const profileStore = useProfileStore();
 const syncStore = useSyncStore();
 
@@ -96,26 +94,39 @@ async function handleStartNewSession(): Promise<void> {
       </template>
 
       <template #footer="{ collapsed }">
-        <div
-          class="flex w-full items-center justify-between gap-2 border-t border-default px-2 pt-2 text-xs text-muted"
-        >
-          <div class="flex items-center gap-2 truncate">
-            <span
-              class="size-2 shrink-0 rounded-full"
-              :class="syncStore.isOnline ? 'bg-success' : 'bg-warning'"
-            />
-            <span v-if="!collapsed" class="truncate">
-              {{ profileStore.activeProfile?.name ?? "Локальный профиль" }}
-            </span>
-          </div>
-          <UBadge
-            v-if="!collapsed && syncStore.pendingCount > 0"
+        <div class="w-full space-y-2 border-t border-default px-2 pt-2">
+          <UButton
+            v-if="$pwa?.showInstallPrompt && !$pwa?.isPWAInstalled"
+            block
             size="xs"
-            color="neutral"
-            variant="subtle"
+            color="primary"
+            variant="soft"
+            icon="i-lucide-download"
+            :label="collapsed ? undefined : 'Установить приложение'"
+            @click="$pwa?.install()"
+          />
+
+          <div
+            class="flex items-center justify-between gap-2 text-xs text-muted"
           >
-            {{ syncStore.pendingCount }}
-          </UBadge>
+            <div class="flex items-center gap-2 truncate">
+              <span
+                class="size-2 shrink-0 rounded-full"
+                :class="syncStore.isOnline ? 'bg-success' : 'bg-warning'"
+              />
+              <span v-if="!collapsed" class="truncate">
+                {{ profileStore.activeProfile?.name ?? "Локальный профиль" }}
+              </span>
+            </div>
+            <UBadge
+              v-if="!collapsed && syncStore.pendingCount > 0"
+              size="xs"
+              color="neutral"
+              variant="subtle"
+            >
+              {{ syncStore.pendingCount }}
+            </UBadge>
+          </div>
         </div>
       </template>
     </UDashboardSidebar>

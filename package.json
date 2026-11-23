@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@nuxt/a11y": "1.0.0-alpha.1",
@@ -43,7 +44,9 @@
     "vue-router": "^5.3.1"
   },
   "devDependencies": {
+    "@golar/vue": "^0.1.11",
     "@nuxt/devtools": "^4.2.0",
-    "@vite-pwa/nuxt": "^2.0.3"
+    "@vite-pwa/nuxt": "^2.0.3",
+    "golar": "^0.1.11"
   }
 }

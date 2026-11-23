@@ -11,6 +11,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
+
+  ssr: false,
+
   app: {
     head: {
       title: "Ча Хэ",
@@ -20,9 +23,11 @@ export default defineNuxtConfig({
       },
     },
   },
+
   ui: {
     fonts: false,
   },
+
   devServer: {
     port: 3636,
   },

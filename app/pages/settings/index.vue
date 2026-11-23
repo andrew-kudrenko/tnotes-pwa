@@ -312,31 +312,72 @@ async function handleSeedMocks(): Promise<void> {
         <UCard>
           <template #header>
             <h2 class="font-semibold text-highlighted">
-              Синхронизация и отладка
+              Приложение, PWA и диагностика
             </h2>
           </template>
 
-          <div class="flex flex-wrap items-center justify-between gap-4">
-            <div class="text-sm">
-              <p class="text-highlighted">
-                Статус сети:
-                <span class="font-medium">{{
-                  syncStore.isOnline ? "Онлайн" : "Оффлайн"
-                }}</span>
-              </p>
-              <p class="text-xs text-muted">
-                В очереди на отправку (Outbox): {{ syncStore.pendingCount }}
-              </p>
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="text-sm">
+                <p class="text-highlighted">
+                  Режим приложения:
+                  <span class="font-medium">
+                    {{ $pwa?.isPWAInstalled ? "Установлено (PWA)" : "Браузер" }}
+                  </span>
+                </p>
+                <p class="text-xs text-muted">
+                  Оффлайн-кэш:
+                  {{
+                    $pwa?.offlineReady ? "готов к работе без сети" : "активен"
+                  }}
+                </p>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2">
+                <UButton
+                  v-if="$pwa?.needRefresh"
+                  size="xs"
+                  color="warning"
+                  variant="soft"
+                  icon="i-lucide-refresh-cw"
+                  label="Обновить версию"
+                  @click="$pwa?.updateServiceWorker()"
+                />
+                <UButton
+                  v-if="$pwa?.showInstallPrompt && !$pwa?.isPWAInstalled"
+                  size="xs"
+                  color="primary"
+                  icon="i-lucide-download"
+                  label="Установить на устройство"
+                  @click="$pwa?.install()"
+                />
+              </div>
             </div>
 
-            <UButton
-              color="neutral"
-              variant="subtle"
-              icon="i-lucide-sparkles"
-              label="Заполнить демо-данными"
-              :loading="isBusy"
-              @click="handleSeedMocks"
-            />
+            <USeparator />
+
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div class="text-sm">
+                <p class="text-highlighted">
+                  Статус сети:
+                  <span class="font-medium">{{
+                    syncStore.isOnline ? "Онлайн" : "Оффлайн"
+                  }}</span>
+                </p>
+                <p class="text-xs text-muted">
+                  В очереди на отправку (Outbox): {{ syncStore.pendingCount }}
+                </p>
+              </div>
+
+              <UButton
+                color="neutral"
+                variant="subtle"
+                icon="i-lucide-sparkles"
+                label="Заполнить демо-данными"
+                :loading="isBusy"
+                @click="handleSeedMocks"
+              />
+            </div>
           </div>
         </UCard>
       </div>

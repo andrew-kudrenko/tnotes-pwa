@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Tea } from "~/domain/tea/types";
 import { useSessionsQuery } from "../composables/queries/use-sessions-query";
 import { useTeasQuery } from "../composables/queries/use-teas-query";
 import { createEmptyTastingSession } from "../domain/session/factory";
@@ -21,7 +22,8 @@ const searchQuery = ref("");
 const isSeeding = ref(false);
 
 const teaMap = computed(() => {
-  const map = new Map<string, typeof teas.value>();
+  const map = new Map<string, Tea>();
+
   for (const tea of teas.value) {
     map.set(tea.meta.id, tea);
   }

@@ -8,13 +8,13 @@ import type { Water } from "../../domain/water/types";
 import type { OutboxRecord, SyncStateRecord } from "../sync/types";
 
 export class TeaTastingDatabase extends Dexie {
-  sessions!: Table<TastingSession, "meta.id">;
-  teas!: Table<Tea, "meta.id">;
-  waters!: Table<Water, "meta.id">;
-  teawares!: Table<Teaware, "meta.id">;
-  customDescriptors!: Table<CustomDescriptor, "meta.id">;
-  outbox!: Table<OutboxRecord, "id">;
-  syncState!: Table<SyncStateRecord, "key">;
+  sessions!: Table<TastingSession, string>;
+  teas!: Table<Tea, string>;
+  waters!: Table<Water, string>;
+  teawares!: Table<Teaware, string>;
+  customDescriptors!: Table<CustomDescriptor, string>;
+  outbox!: Table<OutboxRecord, string>;
+  syncState!: Table<SyncStateRecord, string>;
 
   constructor(databaseName: string) {
     super(databaseName);

@@ -45,7 +45,7 @@ const { data: teas } = useTeasQuery();
 const { data: waters } = useWatersQuery();
 const { data: teawares } = useTeawaresQuery();
 
-const isNewMode = computed(() => route.params.id === "new");
+const isNewMode = computed(() => (route.params as any).id === "new");
 const isPersisted = ref(false);
 const isLoading = ref(true);
 const saveStatus = ref<"idle" | "saving" | "saved">("idle");
@@ -279,7 +279,7 @@ async function handleDeleteSession(): Promise<void> {
 }
 
 onMounted(async () => {
-  const paramId = String(route.params.id ?? "");
+  const paramId = String((route.params as any).id ?? "");
 
   if (paramId === "new") {
     const presetTeaId =
