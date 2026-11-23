@@ -1,7 +1,7 @@
 services:
-  tea-tasting-web:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/tea-tasting:latest
-    container_name: tea-tasting-web
+  tnotes-pwa:
+    image: akudrenko21/tnotes-pwa:0.0.1
+    container_name: tnotes-pwa
     restart: unless-stopped
     ports:
       - "127.0.0.1:8085:80"
