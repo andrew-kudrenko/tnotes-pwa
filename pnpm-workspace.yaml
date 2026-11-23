@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: false
+  vue-demi: false
+minimumReleaseAgeExclude:
+  - '@nuxt/hints@1.1.6'
