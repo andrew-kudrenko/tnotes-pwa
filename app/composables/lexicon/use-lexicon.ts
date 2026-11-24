@@ -2,6 +2,7 @@ import { computed } from "vue";
 import {
   createCustomDescriptor,
   normalizeSearchText,
+  buildSearchTokens,
 } from "../../domain/lexicon/factory";
 import { SYSTEM_DESCRIPTORS } from "../../domain/lexicon/system-dictionary";
 import type { CustomDescriptor, Descriptor } from "../../domain/lexicon/types";
@@ -147,6 +148,33 @@ export function useLexicon() {
     return entity;
   }
 
+  async function updateCustomDescriptor(
+    descriptor: CustomDescriptor,
+    updates: {
+      label: string;
+      aliases?: string[];
+      color?: string;
+    },
+  ): Promise<void> {
+    const trimmedLabel = updates.label.trim();
+    if (!trimmedLabel) {
+      return;
+    }
+    const aliases = updates.aliases ?? descriptor.aliases;
+    const updated: CustomDescriptor = {
+      ...descriptor,
+      label: trimmedLabel,
+      aliases,
+      searchTokens: buildSearchTokens(trimmedLabel, aliases),
+      color: updates.color ?? descriptor.color,
+    };
+    await descriptorRepository.upsert(updated);
+  }
+
+  async function removeCustomDescriptor(id: string): Promise<void> {
+    await descriptorRepository.softDelete(id);
+  }
+
   return {
     allDescriptors,
     rootDescriptors,
@@ -156,5 +184,7 @@ export function useLexicon() {
     getAncestors,
     search,
     addCustomDescriptor,
+    updateCustomDescriptor,
+    removeCustomDescriptor,
   };
 }

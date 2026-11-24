@@ -30,6 +30,11 @@ const primaryNavigation = computed<NavigationMenuItem[]>(() => [
     icon: "i-lucide-cup-soda",
     to: "/teawares",
   },
+  {
+    label: "Аналитика",
+    icon: "i-lucide-bar-chart-3",
+    to: "/analytics",
+  },
 ]);
 
 const secondaryNavigation = computed<NavigationMenuItem[]>(() => [
@@ -68,7 +73,7 @@ async function handleStartNewSession(): Promise<void> {
       </template>
 
       <template #default="{ collapsed }">
-        <div class="px-2 pb-2">
+        <div class="px-2 pb-2 space-y-2">
           <UButton
             block
             color="primary"
@@ -76,6 +81,8 @@ async function handleStartNewSession(): Promise<void> {
             :label="collapsed ? undefined : 'Новая дегустация'"
             @click="handleStartNewSession"
           />
+
+          <UDashboardSearchButton :collapsed="collapsed" class="w-full" />
         </div>
 
         <UNavigationMenu
@@ -132,5 +139,7 @@ async function handleStartNewSession(): Promise<void> {
     </UDashboardSidebar>
 
     <slot />
+
+    <GlobalSearchModal />
   </UDashboardGroup>
 </template>

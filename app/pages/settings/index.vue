@@ -8,6 +8,9 @@ import type { ImportStrategy } from "../../infrastructure/backup/types";
 import { seedMockData } from "../../infrastructure/mocks/seed";
 import { useProfileStore } from "../../stores/profile.store";
 import { useSyncStore } from "../../stores/sync.store";
+import CustomDescriptorsManager from "~/components/settings/CustomDescriptorsManager.vue";
+import CloudAccountCard from "~/components/settings/CloudAccountCard.vue";
+import SyncConflictsCard from "~/components/settings/SyncConflictsCard.vue";
 
 useHead({ title: "Настройки" });
 
@@ -129,6 +132,10 @@ async function handleSeedMocks(): Promise<void> {
 
     <template #body>
       <div class="mx-auto max-w-3xl space-y-6">
+        <CloudAccountCard />
+
+        <SyncConflictsCard />
+
         <UCard>
           <template #header>
             <h2 class="font-semibold text-highlighted">
@@ -244,6 +251,8 @@ async function handleSeedMocks(): Promise<void> {
             </div>
           </div>
         </UCard>
+
+        <CustomDescriptorsManager />
 
         <UCard>
           <template #header>

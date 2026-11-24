@@ -4,6 +4,7 @@ export interface PushItemResult {
   outboxId: string;
   status: "applied" | "conflict" | "error";
   serverRevision?: number;
+  serverEntity?: unknown;
   errorMessage?: string;
 }
 

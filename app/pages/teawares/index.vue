@@ -240,6 +240,14 @@ async function handleDelete(id: string): Promise<void> {
               />
             </UFormField>
 
+            <UFormField label="Теги">
+              <UInputTags
+                v-model="editingTeaware.summary.tags"
+                placeholder="Добавить тег..."
+                class="w-full"
+              />
+            </UFormField>
+
             <UFormField label="Заметка">
               <UTextarea
                 v-model="editingTeaware.summary.note"

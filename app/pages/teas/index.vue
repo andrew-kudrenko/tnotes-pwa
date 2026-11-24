@@ -233,14 +233,39 @@ async function handleBrewTea(teaId: string): Promise<void> {
       <USlideover v-model:open="isEditorOpen" title="Паспорт чая">
         <template #body>
           <div class="space-y-4">
-            <UFormField label="Название" required> </UFormField>
+            <UFormField label="Название" required>
+              <UInput
+                v-model="editingTea.identity.name"
+                placeholder="Например: Иу Чжэншань"
+                class="w-full"
+              />
+            </UFormField>
 
             <UFormField label="Оригинальное название (кит. / пиньинь)">
+              <UInput
+                v-model="editingTea.identity.originalName"
+                placeholder="易武正山"
+                class="w-full"
+              />
             </UFormField>
 
             <div class="grid grid-cols-2 gap-3">
-              <UFormField label="Категория"> </UFormField>
-              <UFormField label="Форма"> </UFormField>
+              <UFormField label="Категория">
+                <USelect
+                  v-model="editingTea.identity.category"
+                  :items="categoryOptions"
+                  class="w-full"
+                />
+              </UFormField>
+
+              <UFormField label="Форма">
+                <USelect
+                  v-model="editingTea.identity.form"
+                  :items="formOptions"
+                  placeholder="Не указана"
+                  class="w-full"
+                />
+              </UFormField>
             </div>
 
             <div class="grid grid-cols-2 gap-3">

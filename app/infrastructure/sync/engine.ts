@@ -104,19 +104,29 @@ export function createSyncEngine(
           await db.outbox.delete(record.id);
         });
       } else if (outcome.status === "conflict") {
-        await db.transaction("rw", [table, db.outbox], async () => {
-          const current = await table.get(record.entityId);
-          if (current) {
-            await table.put({
-              ...current,
-              meta: {
-                ...current.meta,
-                syncStatus: "conflict",
-              },
-            });
-          }
-          await db.outbox.delete(record.id);
-        });
+        await db.transaction(
+          "rw",
+          [table, db.outbox, db.syncState],
+          async () => {
+            const current = await table.get(record.entityId);
+            if (current) {
+              await table.put({
+                ...current,
+                meta: {
+                  ...current.meta,
+                  syncStatus: "conflict",
+                },
+              });
+            }
+            if (outcome.serverEntity !== undefined) {
+              await db.syncState.put({
+                key: `conflict:${record.entityType}:${record.entityId}`,
+                value: JSON.stringify(outcome.serverEntity),
+              });
+            }
+            await db.outbox.delete(record.id);
+          },
+        );
       } else {
         await db.outbox.update(record.id, {
           retryCount: record.retryCount + 1,
